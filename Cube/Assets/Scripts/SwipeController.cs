@@ -8,6 +8,11 @@ public class SwipeController : MonoBehaviour {
 	private bool isSwiping = false;
 	private Vector2 startTouch, swipeDelta;
 
+    void Start()
+    {
+        Screen.orientation = ScreenOrientation.Portrait;
+    }
+
 	void Update () {
 		tap = swipeLeft = swipeUp = swipeRight = swipeDown = false;
 
