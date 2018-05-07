@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IPiece : Piece
+public class TPiece : Piece
 {
 
     float speed = 0.5f;
@@ -23,13 +23,14 @@ public class IPiece : Piece
 
     void OnMouseDown()
     {
-        RotateIPiece();
+        RotateTPiece();
         Reset();
         RotateValues();
-        Check();
+       
+
     }
 
-    void RotateIPiece()
+    void RotateTPiece()
     {
         realRotation += 90;
 
@@ -42,24 +43,34 @@ public class IPiece : Piece
 
     protected void Check()
     {
-        if ((Exits[0] & GetPieceTop()) || (Exits[2] & GetPieceBottom()))
+        if ((Exits[0] & GetPieceTop()) || (Exits[1] & GetPieceRight()) || (Exits[2] & GetPieceBottom()))
         {
             Set();
         }
-        else if ((Exits[1] & GetPieceRight()) || (Exits[3] & GetPieceLeft()))
+        else if ((Exits[1] & GetPieceRight()) || (Exits[2] & GetPieceBottom()) || (Exits[3] & GetPieceLeft()))
         {
             Set();
-        } else
+        }
+        else if ((Exits[2] & GetPieceBottom()) || (Exits[3] & GetPieceLeft()) || (Exits[0] & GetPieceTop()))
+        {
+            Set();
+        }
+        else if ((Exits[3] & GetPieceLeft()) || (Exits[0] & GetPieceTop()) || (Exits[1] & GetPieceRight()))
+        {
+            Set();
+        }
+        else
         {
             Reset();
         }
     }
+
     void RotatePiece()
     {
         System.Random random = new System.Random();
         for (int i = 0; i < random.Next(3); i++)
         {
-            RotateIPiece();
+            RotateTPiece();
             Check();
             RotateValues();
             Reset();

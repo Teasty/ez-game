@@ -6,15 +6,12 @@ public class Piece : MonoBehaviour
 {
     public bool[] Exits;
     public bool activated;
-    protected bool red;        
+    protected bool red;
     protected bool blue;
     protected bool green;
     protected bool yellow;
-    public int xLocation;
-    public int yLocation;
-    public int zLocation;
-    Piece[] Pieces;
     protected Piece previous;
+    public Piece[] Near;
 
 
 	// Use this for initialization
@@ -28,84 +25,52 @@ public class Piece : MonoBehaviour
     }
 
 
-    protected bool GetPieceTop(int x1, int y1, int z1)
+    protected bool GetPieceTop()
     {
         bool res = false;
-        Pieces = (Piece[])FindObjectsOfType(typeof(Piece));
-        foreach (Piece p in Pieces)
-        {
-            if (p.xLocation == x1 & p.yLocation == y1 & p.zLocation == z1)
-            {
-                Debug.Log(xLocation.ToString() + yLocation.ToString() + zLocation.ToString() + "Top");
-                if (p.activated)
+
+        if (Near[0].activated & Near[0].tag != "EndPiece")
                 {
-                    res = p.Exits[2];
-                    break;
+            res = Near[0].Exits[2];
+                 
                 }
-            }
+
+        return res;
+    }
+
+
+    protected bool GetPieceRight()
+    {
+        bool res = false;
+        if (Near[1].activated & Near[1].tag != "EndPiece")
+        {
+            res = Near[1].Exits[3];
+
         }
 
         return res;
     }
 
 
-    protected bool GetPieceRight(int x1, int y1, int z1)
+    protected bool GetPieceBottom()
     {
         bool res = false;
-        Pieces = (Piece[])FindObjectsOfType(typeof(Piece));
-        foreach (Piece p in Pieces)
+        if (Near[2].activated & Near[2].tag != "EndPiece")
         {
-            if (p.xLocation == x1 & p.yLocation == y1 & p.zLocation == z1)
-            {
-                Debug.Log(xLocation.ToString() + yLocation.ToString() + zLocation.ToString() + "Right");
-                if (p.activated)
-                {
-                    res = p.Exits[3];
-                    break;
-                }
-            }
+            res = Near[2].Exits[0];
         }
 
         return res;
     }
 
 
-    protected bool GetPieceBottom(int x1, int y1, int z1)
+    protected bool GetPieceLeft()
     {
         bool res = false;
-        Pieces = (Piece[])FindObjectsOfType(typeof(Piece));
-        foreach (Piece p in Pieces)
+        if (Near[3].activated & Near[3].tag != "EndPiece")
         {
-            if (p.xLocation == x1 & p.yLocation == y1 & p.zLocation == z1)
-            {
-                Debug.Log(xLocation.ToString() + yLocation.ToString() + zLocation.ToString() + "Bottom");
-                if (p.activated)
-                {
-                    res = p.Exits[0];
-                    break;
-                }
-            }
-        }
+            res = Near[3].Exits[1];
 
-        return res;
-    }
-
-
-    protected bool GetPieceLeft(int x1, int y1, int z1)
-    {
-        bool res = false;
-        Pieces = (Piece[])FindObjectsOfType(typeof(Piece));
-        foreach (Piece p in Pieces)
-        {
-            if (p.xLocation == x1 & p.yLocation == y1 & p.zLocation == z1)
-            {
-                Debug.Log(xLocation.ToString() + yLocation.ToString() + zLocation.ToString() + "Left");
-                if (p.activated)
-                {
-                    res = p.Exits[1];
-                    break;
-                }
-            }
         }
 
         return res;

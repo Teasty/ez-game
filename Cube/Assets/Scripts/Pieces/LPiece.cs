@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class IPiece : Piece
+public class LPiece : Piece
 {
 
     float speed = 0.5f;
@@ -17,19 +18,19 @@ public class IPiece : Piece
     // Update is called once per frame
     void Update()
     {
-        this.transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - realRotation), speed);
+        Debug.Log(transform.rotation.x.ToString() + " " + transform.localRotation.x.ToString());
+        this.transform.localRotation = Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, -realRotation + transform.localRotation.z), speed);
         Check();
     }
 
     void OnMouseDown()
     {
-        RotateIPiece();
+        RotateLPiece();
         Reset();
         RotateValues();
-        Check();
     }
 
-    void RotateIPiece()
+    void RotateLPiece()
     {
         realRotation += 90;
 
@@ -42,15 +43,22 @@ public class IPiece : Piece
 
     protected void Check()
     {
-        if ((Exits[0] & GetPieceTop()) || (Exits[2] & GetPieceBottom()))
+        if ((Exits[0] & GetPieceTop()) || (Exits[1] & GetPieceRight()))
         {
             Set();
         }
-        else if ((Exits[1] & GetPieceRight()) || (Exits[3] & GetPieceLeft()))
+        else if ((Exits[1] & GetPieceRight()) || (Exits[2] & GetPieceBottom()))
         {
             Set();
-        } else
+        }
+        else if ((Exits[2] & GetPieceBottom()) || (Exits[3] & GetPieceLeft()))
         {
+            Set();
+        }
+        else if ((Exits[3] & GetPieceLeft()) || (Exits[0] & GetPieceTop()))
+        {
+            Set();
+        } else {
             Reset();
         }
     }
@@ -59,7 +67,7 @@ public class IPiece : Piece
         System.Random random = new System.Random();
         for (int i = 0; i < random.Next(3); i++)
         {
-            RotateIPiece();
+            RotateLPiece();
             Check();
             RotateValues();
             Reset();
